@@ -218,5 +218,87 @@ describe("EdiFile", function(){
 				});
 			});
 		});
+
+
+		describe("when parsing file content CRLF", function(){
+			var parsedFile;
+
+			var fileContent = '\
+0JOHN APPLESEED  M1192171329619071996\r\n\
+1300000MACBOOK AIR 11062015\r\n\
+1150000IPHONE 6S   01082014\r\n\
+2450000002';
+
+			before(function(done){
+				parsedFile = ediFile.parse(fileContent)
+				done();
+			});
+
+			describe("register 0", function(){
+				it("should have 1 line", function(){
+					parsedFile['0'].should.have.lengthOf(1);
+				});
+
+				it("first line should have the correct user_name", function(){
+					parsedFile['0'][0].should.have.property('user_name', 'JOHN APPLESEED');
+				});
+
+				it("first line should have the correct user_gender", function(){
+					parsedFile['0'][0].should.have.property('user_gender', 'M');
+				});
+
+				it("first line should have the correct user_ssn", function(){
+					parsedFile['0'][0].should.have.property('user_ssn', '11921713296');
+				});
+
+				it("first line should have the correct user_born_at", function(){
+					parsedFile['0'][0].should.have.property('user_born_at', new Date(1996, 06, 19));
+				});
+			});
+
+			describe("register 1", function(){
+				it("should have 2 lines", function(){
+					parsedFile['1'].should.have.lengthOf(2);
+				});
+
+				it("first line should have the correct product_name", function(){
+					parsedFile['1'][0].should.have.property('product_name', 'MACBOOK AIR');
+				});
+
+				it("first line should have the correct product_amount", function(){
+					parsedFile['1'][0].should.have.property('product_amount', 300000);
+				});
+
+				it("first line should have the correct product_bought_at", function(){
+					parsedFile['1'][0].should.have.property('product_bought_at', new Date(2015, 05, 11));
+				});
+
+				it("second line should have the correct product_name", function(){
+					parsedFile['1'][1].should.have.property('product_name', 'IPHONE 6S');
+				});
+
+				it("second line should have the correct product_amount", function(){
+					parsedFile['1'][1].should.have.property('product_amount', 150000);
+				});
+
+				it("second line should have the correct product_bought_at", function(){
+					parsedFile['1'][1].should.have.property('product_bought_at', new Date(2014, 07, 01));
+				});
+			});
+
+			describe("register 2", function(){
+				it("should have 1 line", function(){
+					parsedFile['2'].should.have.lengthOf(1);
+				});
+
+				it("first line should have the correct products_amount", function(){
+					parsedFile['2'][0].should.have.property('products_amount', 450000);
+				});
+
+				it("first line should have the correct products_count", function(){
+					parsedFile['2'][0].should.have.property('products_count', 2);
+				});
+			});
+		});
 	});
 });
