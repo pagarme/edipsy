@@ -15,7 +15,7 @@
 	},
 	"dependencies": {
 		"coveralls": "^2.11.2",
-		"lodash": "3.5.0",
+		"lodash": "4.17.15",
 		"mocha": "2.0.1",
 		"mocha-lcov-reporter": "0.0.2",
 		"moment": "2.6.0",
